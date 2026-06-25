@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lageruebersicht</title>
+  <meta name="theme-color" content="#0f766e">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Lageruebersicht</h1>
+      <p id="saveState">Bereit</p>
+    </div>
+    <div class="top-actions">
+      <button id="exportJson" type="button">JSON Export</button>
+      <label class="file-button">
+        JSON Import
+        <input id="importJson" type="file" accept="application/json">
+      </label>
+      <button id="resetDemo" class="ghost" type="button">Beispiel laden</button>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Bereiche">
+    <button class="tab active" data-view="bestand" type="button">Bestand</button>
+    <button class="tab" data-view="datenstamm" type="button">Datenstamm</button>
+    <button class="tab" data-view="austragen" type="button">Austragen</button>
+    <button class="tab" data-view="durchschnitt" type="button">Durchschnitt</button>
+  </nav>
+
+  <main>
+    <section id="view-bestand" class="view active">
+      <div class="kpis">
+        <article>
+          <span>Materialien</span>
+          <strong id="kpiMaterials">0</strong>
+        </article>
+        <article>
+          <span>Gesamtbestand</span>
+          <strong id="kpiStock">0</strong>
+        </article>
+        <article>
+          <span>Unter Mindestbestand</span>
+          <strong id="kpiLow">0</strong>
+        </article>
+        <article>
+          <span>Wert gesamt</span>
+          <strong id="kpiValue">0,00 EUR</strong>
+        </article>
+      </div>
+
+      <div class="toolbar">
+        <input id="stockSearch" type="search" placeholder="Bestand suchen">
+        <select id="stockStatus">
+          <option value="all">Alle Status</option>
+          <option value="low">Unter Mindestbestand</option>
+          <option value="ok">Ausreichend</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Kategorie</th>
+              <th>Einheit</th>
+              <th>Anfang</th>
+              <th>Eingang</th>
+              <th>Verbrauch</th>
+              <th>Korrektur</th>
+              <th>Aktuell</th>
+              <th>Mindestbestand</th>
+              <th>Status</th>
+              <th>Wert</th>
+            </tr>
+          </thead>
+          <tbody id="stockRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-datenstamm" class="view">
+      <form id="materialForm" class="form-grid">
+        <input id="materialName" required placeholder="Material">
+        <input id="materialCategory" placeholder="Kategorie">
+        <input id="materialUnit" required placeholder="Einheit, z. B. Stk">
+        <input id="materialInitial" required type="number" min="0" step="0.01" placeholder="Anfangsbestand">
+        <input id="materialMin" required type="number" min="0" step="0.01" placeholder="Mindestbestand">
+        <input id="materialPrice" type="number" min="0" step="0.01" placeholder="Preis pro Einheit">
+        <button type="submit">Material speichern</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Material</th>
+              <th>Kategorie</th>
+              <th>Einheit</th>
+              <th>Anfangsbestand</th>
+              <th>Mindestbestand</th>
+              <th>Preis</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="materialRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-austragen" class="view">
+      <form id="transactionForm" class="form-grid">
+        <input id="txDate" required type="date">
+        <select id="txMaterial" required></select>
+        <select id="txType" required>
+          <option value="out">Verbrauch</option>
+          <option value="in">Eingang</option>
+          <option value="adjust">Korrektur</option>
+        </select>
+        <input id="txQuantity" required type="number" step="0.01" placeholder="Menge">
+        <input id="txPerson" placeholder="Person / Bereich">
+        <input id="txNote" placeholder="Notiz">
+        <button type="submit">Buchung speichern</button>
+      </form>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Material</th>
+              <th>Art</th>
+              <th>Menge</th>
+              <th>Person / Bereich</th>
+              <th>Notiz</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="transactionRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="view-durchschnitt" class="view">
+      <div class="toolbar">
+        <select id="averageMaterial"></select>
+        <button id="exportCsv" type="button">CSV Export</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>KW</th>
+              <th>Zeitraum</th>
+              <th>Material</th>
+              <th>Verbrauch</th>
+              <th>Buchungen</th>
+              <th>Durchschnitt je Buchung</th>
+            </tr>
+          </thead>
+          <tbody id="averageRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <template id="emptyRow">
+    <tr>
+      <td colspan="12" class="empty">Keine Daten vorhanden</td>
+    </tr>
+  </template>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js");
+      });
+    }
+  </script>
+</body>
+</html>
