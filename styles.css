@@ -144,26 +144,6 @@ select:focus {
   color: #b8c4d7;
 }
 
-.sidebar-note {
-  margin-top: 22px;
-  padding: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.sidebar-note span {
-  display: block;
-  font-weight: 700;
-}
-
-.sidebar-note p {
-  margin: 6px 0 0;
-  color: #b8c4d7;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
 .content {
   min-width: 0;
 }
@@ -438,10 +418,6 @@ tr:last-child td {
 
   .tab {
     width: auto;
-  }
-
-  .sidebar-note {
-    display: none;
   }
 
   .topbar {
