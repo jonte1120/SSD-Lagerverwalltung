@@ -28,4 +28,4 @@ Nach dem Hosting im Browser oeffnen und im Browser-Menue `App installieren` bezi
 
 ## GitHub Pages
 
-Repository auf GitHub hochladen und unter `Settings > Pages` die Quelle `Deploy from a branch`, Branch `main`, Ordner `/root` auswaehlen.
+Repository auf GitHub hochladen und unter `Settings > Pages` die Quelle `GitHub Actions` auswaehlen. Danach deployed der Workflow `.github/workflows/pages.yml` automatisch bei jedem Push auf `main`.
