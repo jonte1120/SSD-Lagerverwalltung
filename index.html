@@ -4,34 +4,52 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lageruebersicht</title>
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#172033">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>Lageruebersicht</h1>
-      <p id="saveState">Bereit</p>
-    </div>
-    <div class="top-actions">
-      <button id="exportJson" type="button">JSON Export</button>
-      <label class="file-button">
-        JSON Import
-        <input id="importJson" type="file" accept="application/json">
-      </label>
-      <button id="resetDemo" class="ghost" type="button">Beispiel laden</button>
-    </div>
-  </header>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">SL</span>
+        <div>
+          <strong>SSD Lager</strong>
+          <small>Bestand & Verbrauch</small>
+        </div>
+      </div>
 
-  <nav class="tabs" aria-label="Bereiche">
-    <button class="tab active" data-view="bestand" type="button">Bestand</button>
-    <button class="tab" data-view="datenstamm" type="button">Datenstamm</button>
-    <button class="tab" data-view="austragen" type="button">Austragen</button>
-    <button class="tab" data-view="durchschnitt" type="button">Durchschnitt</button>
-  </nav>
+      <nav class="tabs" aria-label="Bereiche">
+        <button class="tab active" data-view="bestand" type="button">Bestand</button>
+        <button class="tab" data-view="datenstamm" type="button">Datenstamm</button>
+        <button class="tab" data-view="austragen" type="button">Austragen</button>
+        <button class="tab" data-view="durchschnitt" type="button">Durchschnitt</button>
+      </nav>
 
-  <main>
+      <div class="sidebar-note">
+        <span>Offline faehig</span>
+        <p>Daten werden lokal im Browser gespeichert.</p>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Lagerverwaltung</p>
+          <h1>Lageruebersicht</h1>
+          <p id="saveState">Bereit</p>
+        </div>
+        <div class="top-actions">
+          <button id="exportJson" type="button">JSON Export</button>
+          <label class="file-button">
+            JSON Import
+            <input id="importJson" type="file" accept="application/json">
+          </label>
+          <button id="resetDemo" class="ghost" type="button">Beispiel laden</button>
+        </div>
+      </header>
+
+      <main>
     <section id="view-bestand" class="view active">
       <div class="kpis">
         <article>
@@ -167,7 +185,9 @@
         </table>
       </div>
     </section>
-  </main>
+      </main>
+    </div>
+  </div>
 
   <template id="emptyRow">
     <tr>
